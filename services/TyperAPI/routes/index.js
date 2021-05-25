@@ -90,6 +90,13 @@ router.post('/resultsRateFilter', function (req, res)
   rateFilter(req.body.rate, res);
 });
 
+//Генерация текста
+//Параметр sentCount отвечает за количество предложений в тексте
+router.get('/getText', function (req, res)
+{
+    fishText(res, 7);
+});
+
 function dateFilter(amount, unit, res) {
   var dateTimeTofilter = moment().subtract(amount, unit);
   var filter = {
@@ -118,4 +125,26 @@ function rateFilter(rate, res) {
   let filter = { Rate: { $gt: rate } };
   collection.find(filter).sort({"Rate": -1}).toArray(function(err, result) {
     res.send(result)});
+}
+
+function fishText(res,sentCount) {
+  const https = require('https')
+  const options = {
+    hostname: 'fish-text.ru',
+    path: '/get?type=sentence&number=' + sentCount,
+    method: 'GET'
+  }
+
+  const req = https.request(options, response => {
+    response.on('data', d => {
+      var jsonBody = JSON.parse(d.toString());
+      res.send(jsonBody.text)
+    })
+  })
+
+  req.on('error', error => {
+    console.error(error)
+  })
+
+  req.end()
 }

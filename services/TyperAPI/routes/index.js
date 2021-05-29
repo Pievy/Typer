@@ -94,7 +94,7 @@ router.post('/resultsRateFilter', function (req, res)
 //Параметр sentCount отвечает за количество предложений в тексте
 router.get('/getText', function (req, res)
 {
-    fishText(res, 7);
+    fishText(res, 1);
 });
 
 function dateFilter(amount, unit, res) {

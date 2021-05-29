@@ -61,7 +61,7 @@ body
 }
 #textBlock2
 {
-	margin-bottom: -40vw;
+	position: absolute;
 	max-width: 60vw;
 	height: 60vh;
 	font-size: 25px;

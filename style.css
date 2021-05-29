@@ -1,0 +1,296 @@
+*
+{
+	padding: 0px;
+	font-family: 'Century Gothic';
+}
+
+body
+{
+	background-color: #41444d;
+	font-size: 20px;
+}
+
+#maindiv
+{
+	width: 70vw;
+	min-height: 95vh;
+	height: fit-content;
+	margin: auto;
+	background: white;
+	border-radius: 10px;
+	box-shadow: 0 0 20px black;
+	position: relative;
+}
+
+#testMenu
+{
+	float: left;
+	border-radius: 10px 0px 0px 0px;
+	margin-bottom: 7vh;
+}
+
+#topMenu
+{
+	float: right;
+	border-radius: 0px 10px 0px 0px;
+	margin-bottom: 7vh;
+}
+
+.menu
+{
+	text-align: center;
+	width: 35vw;
+	height: 5vh;
+	padding-top: 2vh;
+	background: #99ffe1;
+}
+
+.menu:hover
+{
+	background: #4cf5d3;
+}
+
+#textBlock
+{
+	width: 60vw;
+	height: 60vh;
+	margin: auto;
+	font-size: 25px;
+	line-height: 1;
+	word-wrap: break-word;
+}
+#textBlock2
+{
+	margin-bottom: -40vw;
+	max-width: 60vw;
+	height: 60vh;
+	font-size: 25px;
+	margin-left: 5vw;
+	margin-top: 14vh;
+	line-height: 1;
+	word-wrap: break-word;
+}
+
+#topBlock
+{
+	width: 60vw;
+	height: fit-content;
+	font-size: 25px;
+	display: inline-block;
+	margin-left: 5vw;
+	border-radius: 10px;
+}
+
+.noneVisible
+{
+	display: none;
+}
+
+#test
+{
+	height: 90vh;
+}
+
+#top
+{
+	/*height: 90vh;*/
+}
+
+#speedPanel
+{
+	width: 60vw;
+	height: 25vh;
+	background: #99ffe1;
+	border-radius: 10px;
+	bottom: 4vh;
+	margin-left: 5vw;
+	box-shadow: 0 0 10px lightgrey;
+	position: absolute;
+}
+
+.elementSpeedPanel
+{
+	width: 30vw;
+	height: 10vh;
+	text-align: center;
+	padding-top: 3vh;
+}
+
+#speed
+{
+	float: left;
+}
+
+#misprint
+{
+	float: right;
+}
+
+#share
+{
+	color: white;
+	text-align: center;
+	padding: 1vh;
+	background: #00c6bf;
+	border-radius: 10px 10px 0 0;
+}
+
+#share:hover
+{
+	color: white;
+	text-align: center;
+	padding: 1vh;
+	background: #089f9a;
+	border-radius: 10px 10px 0 0;
+}
+
+#black
+{
+	top: 0;
+	right: 0;
+	position: absolute;
+	width: 100vw;
+	height: 100vh;
+	background: rgba(0, 0, 0, 0.5);
+}
+
+.blackClas
+{
+	display: none;
+}
+
+#dialog
+{
+	width: 36vw;
+	height: 40vh;
+	background: white;
+	margin: auto;
+	margin-top: 20vh;
+	margin-left: 47vw;
+	border-radius: 10px;
+}
+
+#result
+{
+	color: white;
+	text-align: center;
+	padding: 1vh;
+	background: #00c6bf;
+	border-radius: 10px 10px 0 0;
+}
+
+#speedRes
+{
+	width: 18vw;
+	height: 10vh;
+	text-align: center;
+	padding-top: 3vh;
+	float: left;
+}
+
+#misprintRes
+{
+	width: 18vw;
+	height: 10vh;
+	text-align: center;
+	padding-top: 3vh;
+	float: right;
+}
+
+form
+{
+	padding-top: 15vh;
+	width: 25vw;
+	margin: auto;
+}
+
+#nickname
+{
+	width: 25vw;
+	height: 4vh;
+	border-radius: 5px;
+	text-align: center;
+}
+
+#buttonShare
+{
+	width: 15vw;
+	height: 4vh;
+	border: none;
+	border-radius: 5px;
+	color: white;
+	background: #00c6bf;
+	margin-left: 5vw;
+	outline: none;
+	margin-top: 4vh;
+}
+
+#buttonShare:hover
+{
+	background: #089f9a;
+}
+
+#sort
+{
+	display: flex;
+}
+
+.timeSort
+{
+	padding-top: 1vh;
+	background: #99ffe1;
+	height: 5vh;
+	width: 20vw;
+	text-align: center;
+	border-radius: 10px 10px 0px 0px;
+	border: 1px solid #00c6bf;
+	border-bottom: none;
+}
+
+.timeSort:hover
+{
+	background: #4cf5d3;
+}
+
+#columns
+{
+	width: 60vw;
+	text-align: center;
+	border-left: 1px solid #00c6bf;
+	border-right: 1px solid #00c6bf;
+}
+
+.whiteMenu
+{
+	background: white;
+}
+
+.whiteMenu:hover
+{
+	background: white;
+}
+
+td
+{
+	padding-top: 1vh;
+	padding-bottom: 1vh;
+	border-bottom: 1px solid #00c6bf;
+}
+
+#textInput
+{
+	position: absolute;
+	width: 60vw;
+	height: 45vh;
+	padding: 1vw;
+	margin-left: -1vw;
+	margin-top: -1vw;
+	background: rgba(255, 255, 255, 0.5);
+	border: none;
+	outline: none;
+}
+
+.ShareVisible
+{
+	display: none; 
+}

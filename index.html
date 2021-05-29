@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>TextType</title>
+		<link rel="stylesheet" type="text/css" href="style.css">
+	</head>
+
+	<body v-on:keyup.enter="onEnter">
+		<div id="maindiv">
+			<div id="testMenu" :class="{ whiteMenu: goWhiteTest }" class="menu" v-on:click="funcGoWhite('test')">
+				Тестирование
+			</div>
+
+			<div id="topMenu" :class="{ whiteMenu: goWhiteTop }" class="menu" v-on:click="funcGoWhite('top')">
+				Рейтинг
+			</div>
+
+			<div id="test" :class="{ noneVisible: testNoVisible }">
+				<div id="textBlock2">
+					<span style="background: lightgreen">{{ newText }}</span>
+				</div>
+				<div id="textBlock">
+					{{ text }}
+				</div>
+
+				<div id="speedPanel">
+					<div id="share" v-on:click="share" :class="{ ShareVisible: shareVisible }">Поделиться</div>
+
+					<div id="elementsSpeedPanel">	
+						<div id="speed" class="elementSpeedPanel">
+							<b>Скорость:</b><br>
+							{{speedMinute}} знаков/мин.<br>
+							{{speedSec}} знаков/сек.
+						</div>
+						<div id="misprint" class="elementSpeedPanel">
+							<b>Опечатки:</b><br>
+							{{misprints}}
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div id="top" :class="{ noneVisible: topNoVisible }">
+				<div id="topBlock">
+					<div id="sort">
+						<div class="timeSort" :class="{ whiteMenu: goWhiteToday }" v-on:click="funcGoWhite('today')">Сегодня</div>
+						<div class="timeSort" :class="{ whiteMenu: goWhiteMonth }" v-on:click="funcGoWhite('month')">Месяц</div>
+						<div class="timeSort" :class="{ whiteMenu: goWhiteAllTime }" v-on:click="funcGoWhite('allTime')">Все время</div>
+					</div>
+					<table id="columns">
+						<tr>
+							<td style="width: 26vw;">Имя</td><td>Скорость</td><td>Опечатки</td>
+						</tr>
+						<tr v-for="human in humans">
+							<td>{{human.Name}}</td><td>{{human.Score}} зн/мин.<br>{{human.Rate}} зн.сек</td><td>{{human.Misprints}}</td>
+						</tr>
+					</table>
+				</div>
+			</div>
+
+			<div id="black" :class="{ blackClas: blackNoVisible }">
+				<div id="dialog">
+					<div id="result">Поделиться результатом</div>
+					<div>
+						<div id="speedRes">
+							<b>Скорость:</b><br>
+							{{ speedMinute }} знаков/мин.<br>
+							{{ speedSec }} знаков/сек.
+						</div>
+						<div id="misprintRes">
+							<b>Опечатки:</b><br>
+							{{misprints}}
+						</div>
+					</div>
+					<form method="post">
+						Как звать?<br>
+						<input type="text" name="nickname" id="nickname"><br>
+						<input type="button" name="buttonShare" id="buttonShare" value="Отправить" v-on:click="sendRecord">
+					</form>
+				</div>
+			</div>
+		</div>
+
+		<script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+		<script>
+			const requesURI = 'http://localhost:3000'
+
+			async function request(url, method, data = null, json = true) 
+			{
+				const headers = {}
+				let body
+				url = `${requesURI}${url}`
+				let response = false
+
+				console.log(url)
+
+				if (data) 
+				{
+					headers['Content-type'] = 'application/json'
+					body = JSON.stringify(data)
+				}
+
+				try 
+				{
+					const res = await fetch(url, 
+					{
+						method,
+						body,
+						headers
+					})
+
+					let response
+
+					if (json)
+						response = await res.json()
+					else
+						response = await res.text()
+
+					return response
+				} 
+				catch (e) 
+				{
+					console.log(e)
+					return response
+				}
+			}
+
+			var app = new Vue({
+				el: '#maindiv',
+				created() {
+				    window.addEventListener('keydown', (e) => {
+				    	let masText = this.text.split('');
+				    	
+				    	if(e.key == masText[this.count])
+				    	{
+				    		if(this.goTimer)
+				    		{
+				    			this.setTimer()
+				    			this.goTimer = false
+				    		}
+				    		if(e.code == "Space")
+				    		{
+					    		this.newText += " "
+					    		mas = this.newText.split(' ');
+					    		this.newText = "";
+					    		for (var i = 0; i < mas.length; i++) 
+					    		{
+					    			this.newText += mas[i]+" "
+					    		}
+					    	}
+					    	else
+				    			this.newText += e.key
+				    		if(this.count == this.text.length-1)
+				    		{	
+				    			this.goTimer = true
+				    			this.shareVisible = false
+				    		}
+				    		this.count++
+				    	}
+				    	else if (!event.metaKey && !event.shiftKey && !this.goTimer) {
+							this.misprints++
+						}
+				    });
+				},
+				data:{
+					goWhiteTest: true,
+					goWhiteTop: false,
+					goWhiteToday: true,
+					goWhiteMonth: false,
+					goWhiteAllTime: false,
+					testNoVisible: false,
+					topNoVisible: true,
+					shareVisible: true,
+					speedMinute: 0,
+					speedSec: 0,
+					Sec: 0,
+					misprints: 0,
+					blackNoVisible: true,
+					text: "",
+					newText: "",
+					count: 0,
+					goTimer: true,
+					humans: [],
+				},
+				methods:{
+					async funcGoWhite(divId){
+						if(divId == "test")
+						{
+							this.goWhiteTest = true;
+							this.goWhiteTop = false;
+							this.testNoVisible = false;
+							this.topNoVisible = true;
+
+						}
+						else if(divId == "top")
+						{
+							this.goWhiteTop = true;
+							this.goWhiteTest = false;
+							this.topNoVisible = false;
+							this.testNoVisible = true;
+						}
+						else if(divId == "today")
+						{
+							this.goWhiteToday = true;
+							this.goWhiteMonth = false;
+							this.goWhiteAllTime = false;
+							const result = await request('/resultsDateFilter', "POST", { "amount": 1, "unit": "day" })
+							console.log(result)
+							this.humans = result
+						}
+						else if(divId == "month")
+						{
+							this.goWhiteToday = false;
+							this.goWhiteMonth = true;
+							this.goWhiteAllTime = false;
+							const result = await request('/resultsDateFilter', "POST", { "amount": 1, "unit": "month" })
+							console.log(result)
+							this.humans = result
+						}
+						else if(divId == "allTime")
+						{
+							this.goWhiteToday = false;
+							this.goWhiteMonth = false;
+							this.goWhiteAllTime = true;
+							const result = await request('/resultsDateFilter', "POST", { "amount": 999, "unit": "year" })
+							console.log(result)
+							this.humans = result
+						}
+					},
+					share: function(){
+						this.blackNoVisible = false
+					},
+					async sendRecord() {
+						const nick = document.getElementById('nickname').value
+
+						request('/share', "POST", { "name": nick, "score": this.speedMinute, "misprints": this.misprints, "rate": this.speedSec })
+						this.blackNoVisible = true
+
+
+					},
+					countDown: function(){
+						if(!this.goTimer)
+						{
+							this.Sec++
+							this.speedSec = Math.round((this.newText.length)/this.Sec)
+							this.speedMinute = Math.round(((this.newText.length)/this.Sec)*60)
+						}
+						else
+						{
+							this.speedSec = this.speedSec
+							this.speedMinute = this.speedMinute
+						}
+					},
+					setTimer: function(){
+						this.$nextTick(function () {
+				            window.setInterval(() => {
+				                this.countDown();
+			            	},1000);
+			        	})
+					}
+				},
+				async mounted() {
+					const top = await request('/resultsDateFilter', "POST", { "amount": 1, "unit": "day" })
+					this.humans = top
+
+					const tex = await request('/getText', "GET", null, false)
+					this.text = tex
+			    },
+
+		        /*mounted: function () {
+		        	document.addEventListener('keydown', function(e) {
+		            	console.log(this.text)
+		            });
+				  }*/
+			})
+
+			
+		</script>
+	</body>
+</html>
